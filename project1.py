@@ -127,7 +127,25 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry Cant send Email now")
-
+                
+        elif 'shut down' or 'shutdown' in query:
+            speak("Are you sure that you want to shut down your PC? Say only YES or NO")
+            confirmation = takeCommand().lower()
+            if confirmation != 'yes':
+                exit()
+            else:
+                speak("System is shutting down")
+                os.system("shutdown /s /t 1")
+                
+        elif 'restart' in query:
+            speak("Are you sure that you want to restart your PC? Say only YES or NO")
+            confirmation = takeCommand().lower()
+            if confirmation != 'yes':
+                exit()
+            else:
+                speak("System is restarting")
+                os.system("shutdown /r /t 1")
+                
         elif query=='':
             count=count+1
             speak("I am not getting any response from your side . Say Bye to exit")
