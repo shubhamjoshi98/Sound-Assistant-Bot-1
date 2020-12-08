@@ -13,3 +13,4 @@ To be added -
 1. Alarm setting
 2. Shut down 
 and many more
+ Thanks a lot
