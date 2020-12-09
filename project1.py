@@ -11,6 +11,7 @@ import speech_recognition as sr
 import datetime
 import random
 from tkinter import *
+import psutil
 
 engine = pyttsx3.init()
 voices=engine.getProperty('voices')
@@ -69,6 +70,13 @@ def SendEmail(to,content):
     server.sendmail(id,to,content)
     server.close()
     file1.close()
+    
+def speakConvertedTime(seconds):
+    ''' convert seconds to hrs : min : sec and speak the result '''
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    print("The battery will last: " + "%d:%02d:%02d" % (hours, minutes, seconds))
+    return speak(f"Battery will last for about {hours} hour, {minutes} minutes and {seconds} seconds")
 
 if __name__ == "__main__":
     WishMe()
@@ -145,6 +153,17 @@ if __name__ == "__main__":
             else:
                 speak("System is restarting")
                 os.system("shutdown /r /t 1")
+                
+        elif 'battery' in query:
+            battery = psutil.sensors_battery()
+            battery_percent = battery.percent
+            battery_state = battery.power_plugged
+            if battery_state == True:
+                speak(f"The battery is {battery_percent} percent and is charging")
+            else:
+                speak(f"The battery is {battery_percent} percent ")
+                battery_time_left = int(battery.secsleft)
+                speakConvertedTime(battery_time_left)        
                 
         elif query=='':
             count=count+1
