@@ -12,6 +12,7 @@ import datetime
 import random
 from tkinter import *
 import psutil
+import socket
 
 engine = pyttsx3.init()
 voices=engine.getProperty('voices')
@@ -136,7 +137,7 @@ if __name__ == "__main__":
                 print(e)
                 speak("Sorry Cant send Email now")
                 
-        elif 'shut down' or 'shutdown' in query:
+        elif ('shut down' or 'shutdown') in query:
             speak("Are you sure that you want to shut down your PC? Say only YES or NO")
             confirmation = takeCommand().lower()
             if confirmation != 'yes':
@@ -163,7 +164,12 @@ if __name__ == "__main__":
             else:
                 speak(f"The battery is {battery_percent} percent ")
                 battery_time_left = int(battery.secsleft)
-                speakConvertedTime(battery_time_left)        
+                speakConvertedTime(battery_time_left)  
+                
+        elif ('address' or 'IP') in query:
+            hostname = socket.gethostname()
+            IPAddr = socket.gethostbyname(hostname)
+            speak(f"Your computer's name is {hostname} and the I.P. address is {IPAddr}")        
                 
         elif query=='':
             count=count+1
